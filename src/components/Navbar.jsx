@@ -19,7 +19,16 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
+            <Link to="/" className="flex items-center space-x-3">
+              <img 
+                src="/logo.png" 
+                alt="MedMap Naga Logo" 
+                className="h-14 w-14 object-contain"
+                onError={(e) => {
+                  // Fallback if logo doesn't exist yet
+                  e.target.style.display = 'none';
+                }}
+              />
               <span className="text-xl font-bold">MedMap Naga</span>
             </Link>
           </div>
