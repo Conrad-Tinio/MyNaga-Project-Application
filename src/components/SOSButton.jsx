@@ -100,7 +100,7 @@ const SOSButton = ({ userLocation, onEmergencyReport }) => {
       {/* Floating SOS Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 bg-red-600 hover:bg-red-700 text-white rounded-full px-5 py-3 shadow-2xl transform transition-all hover:scale-105 flex items-center space-x-2 animate-pulse"
+        className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-full px-5 py-3 shadow-lg shadow-red-500/25 transform transition-all duration-200 hover:scale-105 active:scale-95 flex items-center space-x-2 animate-pulse-slow"
         aria-label="Emergency SOS"
       >
         <AlertTriangle className="w-5 h-5" />
@@ -109,10 +109,10 @@ const SOSButton = ({ userLocation, onEmergencyReport }) => {
 
       {/* Emergency Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-          <div className="bg-white rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-scale-in border border-gray-100">
             {/* Header */}
-            <div className="bg-red-600 text-white p-6 rounded-t-lg">
+            <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-6 rounded-t-2xl">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <AlertTriangle className="w-8 h-8" />
@@ -271,7 +271,7 @@ const SOSButton = ({ userLocation, onEmergencyReport }) => {
                   <button
                     type="submit"
                     disabled={isSubmitting || !resourceType || !selectedResource || !contactNumber}
-                    className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-6 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                    className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl active:scale-95"
                   >
                     {isSubmitting ? (
                       <>

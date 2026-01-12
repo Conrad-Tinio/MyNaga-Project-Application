@@ -173,20 +173,23 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="mb-6">
-          <div className="flex items-center space-x-3 mb-2">
-            <div className="bg-gradient-to-br from-primary-600 to-primary-700 p-3 rounded-lg shadow-lg">
-              <MessageCircle className="w-7 h-7 text-white" />
+        <div className="mb-6 animate-fade-in">
+          <div className="flex items-center space-x-4 mb-3">
+            <div className="relative">
+              <div className="bg-gradient-to-br from-primary-600 to-primary-700 p-4 rounded-2xl shadow-lg">
+                <MessageCircle className="w-8 h-8 text-white" />
+              </div>
+              <div className="absolute inset-0 bg-primary-400/30 rounded-2xl blur-xl"></div>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center space-x-2">
-                <span>MedMap Assist</span>
-                <Sparkles className="w-5 h-5 text-primary-600" />
+              <h1 className="text-4xl font-bold text-gray-900 flex items-center space-x-2">
+                <span className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">MedMap Assist</span>
+                <Sparkles className="w-6 h-6 text-primary-600 animate-pulse" />
               </h1>
-              <p className="text-gray-600 text-sm mt-1">
+              <p className="text-gray-600 text-base mt-1.5 font-medium">
                 Your AI assistant for finding medical resources in Naga City
               </p>
             </div>
@@ -194,9 +197,9 @@ const Chatbot = () => {
         </div>
 
         {/* Chat Container */}
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col" style={{ height: 'calc(100vh - 250px)', minHeight: '500px' }}>
+        <div className="card-modern flex flex-col overflow-hidden" style={{ height: 'calc(100vh - 250px)', minHeight: '500px' }}>
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-white to-gray-50/50">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -208,9 +211,9 @@ const Chatbot = () => {
                   }`}
                 >
                   <div
-                    className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center shadow-md ${
+                    className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-transform duration-200 ${
                       message.role === 'user'
-                        ? 'bg-primary-600 text-white'
+                        ? 'bg-gradient-to-br from-primary-600 to-primary-700 text-white'
                         : 'bg-gradient-to-br from-primary-500 to-primary-600 text-white'
                     }`}
                   >
@@ -221,10 +224,10 @@ const Chatbot = () => {
                     )}
                   </div>
                   <div
-                    className={`rounded-lg px-4 py-3 shadow-sm ${
+                    className={`rounded-2xl px-5 py-3.5 shadow-md ${
                       message.role === 'user'
-                        ? 'bg-primary-600 text-white'
-                        : 'bg-gray-100 text-gray-900 border border-gray-200'
+                        ? 'bg-gradient-to-br from-primary-600 to-primary-700 text-white'
+                        : 'bg-white text-gray-900 border border-gray-200'
                     }`}
                   >
                     <p className="whitespace-pre-wrap text-sm leading-relaxed">
@@ -243,16 +246,16 @@ const Chatbot = () => {
             )}
 
             {isProcessing && (
-              <div className="flex justify-start">
+              <div className="flex justify-start animate-fade-in">
                 <div className="flex items-start space-x-3 max-w-[85%]">
-                  <div className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 text-white flex items-center justify-center shadow-md">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 text-white flex items-center justify-center shadow-lg">
                     <Bot className="w-5 h-5" />
                   </div>
-                  <div className="bg-gray-100 rounded-lg px-4 py-3 border border-gray-200">
+                  <div className="bg-white rounded-2xl px-5 py-3.5 border border-gray-200 shadow-md">
                     <div className="flex space-x-2">
-                      <div className="w-2 h-2 bg-primary-600 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                      <div className="w-2 h-2 bg-primary-600 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                      <div className="w-2 h-2 bg-primary-600 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                      <div className="w-2.5 h-2.5 bg-primary-600 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-2.5 h-2.5 bg-primary-600 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-2.5 h-2.5 bg-primary-600 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                     </div>
                   </div>
                 </div>
@@ -263,10 +266,10 @@ const Chatbot = () => {
           </div>
 
           {/* Input Form */}
-          <div className="border-t border-gray-200 p-4 bg-gray-50">
+          <div className="border-t border-gray-200 p-5 bg-gradient-to-b from-gray-50 to-white">
             {/* Quick Suggestions */}
             {showFAQs && messages.length > 1 && (
-              <div className="mb-3 pb-3 border-b border-gray-200">
+              <div className="mb-4 pb-4 border-b border-gray-200">
                 <FAQButtons onQuestionClick={handleQuestionClick} />
               </div>
             )}
@@ -278,7 +281,7 @@ const Chatbot = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about medical resources... (e.g., Where can I find O+ blood?)"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 shadow-sm"
+                  className="input-modern w-full"
                   disabled={isProcessing}
                   onFocus={() => setShowFAQs(false)}
                 />
@@ -286,19 +289,19 @@ const Chatbot = () => {
               <button
                 type="submit"
                 disabled={!input.trim() || isProcessing}
-                className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 shadow-md transition-all hover:shadow-lg"
+                className="btn-primary px-6 py-3.5 rounded-xl flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-5 h-5" />
-                <span className="hidden sm:inline">Send</span>
+                <span className="hidden sm:inline font-semibold">Send</span>
               </button>
             </form>
           </div>
         </div>
 
         {/* Disclaimer */}
-        <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <p className="text-sm text-blue-800">
-            <strong>ℹ️ Note:</strong> MedMap Assist is a non-diagnostic resource-finding assistant. 
+        <div className="mt-6 glass bg-blue-50/80 border border-blue-200/50 rounded-xl p-5 backdrop-blur-sm animate-fade-in">
+          <p className="text-sm text-blue-800 leading-relaxed">
+            <strong className="font-semibold">ℹ️ Note:</strong> MedMap Assist is a non-diagnostic resource-finding assistant. 
             It does not provide medical advice or diagnoses. Always consult healthcare professionals for medical concerns.
           </p>
         </div>

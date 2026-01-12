@@ -23,8 +23,8 @@ const StatusBadge = ({ status, showText = true }) => {
   const Icon = config.icon;
 
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${config.color}`}>
-      <Icon className="w-3 h-3 mr-1" />
+    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border shadow-sm ${config.color} transition-all duration-200`}>
+      <Icon className="w-3.5 h-3.5 mr-1.5" />
       {showText && config.text}
     </span>
   );

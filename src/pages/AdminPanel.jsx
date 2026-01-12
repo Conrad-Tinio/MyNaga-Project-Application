@@ -137,26 +137,33 @@ const AdminPanel = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">LGU Admin Panel</h1>
-          <p className="text-gray-600">
+        <div className="mb-8 animate-fade-in">
+          <div className="inline-block mb-3">
+            <span className="text-sm font-semibold text-primary-600 bg-primary-50 px-3 py-1 rounded-full">
+              Admin Dashboard
+            </span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
+            LGU Admin Panel
+          </h1>
+          <p className="text-lg text-gray-600">
             Manage and update medical resource availability across Naga City facilities
           </p>
         </div>
 
         {/* Emergency Alerts */}
         {emergencyAlerts.length > 0 && (
-          <div className="mb-6 bg-red-100 border-2 border-red-400 rounded-lg p-4 animate-pulse">
-            <div className="flex items-center space-x-2 mb-3">
+          <div className="mb-6 glass bg-red-100/80 border-2 border-red-400/50 rounded-xl p-5 animate-pulse-slow backdrop-blur-sm shadow-lg">
+            <div className="flex items-center space-x-2 mb-4">
               <AlertTriangle className="w-6 h-6 text-red-700" />
               <h2 className="text-lg font-bold text-red-900">🚨 Emergency Alerts ({emergencyAlerts.length})</h2>
             </div>
             <div className="space-y-3">
               {emergencyAlerts.slice(0, 3).map((alert, index) => (
-                <div key={index} className="bg-white rounded-lg p-4 border border-red-300">
+                <div key={index} className="card-modern bg-white rounded-xl p-4 border border-red-300/50 animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <p className="font-semibold text-gray-900">
@@ -210,10 +217,10 @@ const AdminPanel = () => {
 
         {/* Low Stock Alerts */}
         {lowStockAlerts.length > 0 && (
-          <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
-            <div className="flex items-center space-x-2 mb-3">
+          <div className="mb-6 glass bg-red-50/80 border border-red-200/50 rounded-xl p-5 backdrop-blur-sm animate-fade-in">
+            <div className="flex items-center space-x-2 mb-4">
               <AlertTriangle className="w-5 h-5 text-red-600" />
-              <h2 className="text-lg font-semibold text-red-900">Low Stock Alerts ({lowStockAlerts.length})</h2>
+              <h2 className="text-lg font-bold text-red-900">Low Stock Alerts ({lowStockAlerts.length})</h2>
             </div>
             <div className="space-y-2">
               {lowStockAlerts.slice(0, 5).map(alert => (
@@ -232,16 +239,16 @@ const AdminPanel = () => {
         )}
 
         {/* Filters */}
-        <div className="mb-6 bg-white rounded-lg shadow-md p-4 border border-gray-200">
+        <div className="mb-6 card-modern p-5 animate-slide-up">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Filter by Facility
               </label>
               <select
                 value={selectedFacility}
                 onChange={(e) => setSelectedFacility(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="input-modern w-full"
               >
                 <option value="">All Facilities</option>
                 {facilities.map(facility => (
@@ -251,13 +258,13 @@ const AdminPanel = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Filter by Category
               </label>
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                className="input-modern w-full"
               >
                 <option value="">All Categories</option>
                 {categories.map(cat => (
@@ -269,13 +276,13 @@ const AdminPanel = () => {
         </div>
 
         {/* Save Button */}
-        <div className="mb-6 flex justify-end">
+        <div className="mb-6 flex justify-end animate-fade-in">
           <button
             onClick={handleSave}
-            className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition ${
+            className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg ${
               saveStatus === 'success'
-                ? 'bg-green-600 text-white'
-                : 'bg-primary-600 text-white hover:bg-primary-700'
+                ? 'bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800'
+                : 'btn-primary'
             }`}
           >
             {saveStatus === 'success' ? (
@@ -293,10 +300,10 @@ const AdminPanel = () => {
         </div>
 
         {/* Resources Table */}
-        <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+        <div className="card-modern overflow-hidden animate-fade-in">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-gradient-to-r from-gray-50 to-gray-100/50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Facility
@@ -339,7 +346,7 @@ const AdminPanel = () => {
                           min="0"
                           value={item.stock || 0}
                           onChange={(e) => updateResource(item.id, { stock: parseInt(e.target.value) || 0 })}
-                          className="w-24 px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                          className="w-24 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white/80 backdrop-blur-sm transition-all"
                         />
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -351,13 +358,13 @@ const AdminPanel = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <button
                           onClick={() => updateResource(item.id, { status: resourceStatus.AVAILABLE, stock: 50 })}
-                          className="text-primary-600 hover:text-primary-900 mr-3"
+                          className="text-primary-600 hover:text-primary-800 font-semibold mr-4 transition-colors hover:underline"
                         >
                           Mark Available
                         </button>
                         <button
                           onClick={() => updateResource(item.id, { status: resourceStatus.OUT_OF_STOCK, stock: 0 })}
-                          className="text-red-600 hover:text-red-900"
+                          className="text-red-600 hover:text-red-800 font-semibold transition-colors hover:underline"
                         >
                           Mark Out of Stock
                         </button>
@@ -371,8 +378,8 @@ const AdminPanel = () => {
         </div>
 
         {filteredAvailability.length === 0 && (
-          <div className="bg-white rounded-lg shadow-md p-12 text-center">
-            <p className="text-gray-600">No resources found with the selected filters.</p>
+          <div className="card-modern p-12 text-center animate-scale-in">
+            <p className="text-gray-600 font-medium">No resources found with the selected filters.</p>
           </div>
         )}
       </div>

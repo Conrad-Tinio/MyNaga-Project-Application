@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import ResourceCard from '../components/ResourceCard';
 import StatusBadge from '../components/StatusBadge';
 import LocationIndicator from '../components/LocationIndicator';
+import FacilityDetailModal from '../components/FacilityDetailModal';
 import { Search, Filter, MapPin, AlertCircle, SlidersHorizontal } from 'lucide-react';
 
 const Dashboard = () => {
@@ -17,6 +18,8 @@ const Dashboard = () => {
   const [availability, setAvailability] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [emergencyReports, setEmergencyReports] = useState([]);
+  const [selectedFacility, setSelectedFacility] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     // Load availability data
@@ -49,6 +52,16 @@ const Dashboard = () => {
     setEmergencyReports(prev => [...prev, reportData]);
     console.log('Emergency Report Submitted:', reportData);
     // In a real app, this would send to backend/API
+  };
+
+  const handleCardClick = (facility) => {
+    setSelectedFacility(facility);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedFacility(null);
   };
 
   const filteredResults = useMemo(() => {
@@ -147,14 +160,19 @@ const Dashboard = () => {
   const hasActiveFilters = searchQuery || selectedCategory || selectedFacilityType || selectedStatus || emergencyMode;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Medical Resource Availability Dashboard
+        <div className="mb-8 animate-fade-in">
+          <div className="inline-block mb-3">
+            <span className="text-xs font-semibold text-primary-700 bg-primary-50/80 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm border border-primary-200/50 uppercase tracking-wide">
+              Real-time Monitoring
+            </span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-3 text-gray-900 leading-tight">
+            Medical Resource Availability
           </h1>
-          <p className="text-gray-600">
+          <p className="text-lg text-gray-600">
             Real-time view of medical resources across Naga City health facilities
           </p>
         </div>
@@ -168,65 +186,68 @@ const Dashboard = () => {
         </div>
 
         {/* Emergency Mode Toggle */}
-        <div className="mb-6">
+        <div className="mb-6 animate-slide-up">
           <button
             onClick={() => setEmergencyMode(!emergencyMode)}
-            className={`w-full md:w-auto flex items-center justify-center space-x-2 px-6 py-3 rounded-lg font-medium transition ${
+            className={`w-full md:w-auto flex items-center justify-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
               emergencyMode
-                ? 'bg-red-600 text-white hover:bg-red-700'
-                : 'bg-white text-gray-700 border-2 border-red-300 hover:border-red-400'
+                ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/25'
+                : 'btn-secondary border-red-300 hover:border-red-400 hover:bg-red-50'
             }`}
           >
-            <AlertCircle className="w-5 h-5" />
+            <AlertCircle className={`w-5 h-5 ${emergencyMode ? 'animate-pulse' : ''}`} />
             <span>{emergencyMode ? 'Emergency Mode Active' : 'Activate Emergency Mode'}</span>
           </button>
           {emergencyMode && (
-            <p className="mt-2 text-sm text-red-600">
-              Showing only facilities with available resources, sorted by proximity
+            <p className="mt-3 text-sm text-red-600 font-medium animate-fade-in flex items-center space-x-2">
+              <AlertCircle className="w-4 h-4" />
+              <span>Showing only facilities with available resources, sorted by proximity</span>
             </p>
           )}
         </div>
 
         {/* Search Bar */}
-        <div className="mb-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <div className="mb-6 animate-slide-up">
+          <div className="relative group">
+            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
+              <Search className="w-5 h-5 text-gray-400 group-focus-within:text-primary-500 transition-colors duration-200" />
+            </div>
             <input
               type="text"
               placeholder="Search for resources or facilities (e.g., Amoxicillin, Bicol Medical Center)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              className="input-modern w-full pl-12 pr-4 py-3"
             />
           </div>
         </div>
 
         {/* Filters */}
-        <div className="mb-6">
+        <div className="mb-6 animate-slide-up">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+            className="btn-secondary flex items-center space-x-2 px-5 py-2.5 rounded-xl"
           >
             <SlidersHorizontal className="w-4 h-4" />
             <span>Filters</span>
             {hasActiveFilters && (
-              <span className="bg-primary-600 text-white text-xs px-2 py-0.5 rounded-full">
+              <span className="bg-gradient-to-r from-primary-600 to-primary-700 text-white text-xs px-2.5 py-1 rounded-full font-semibold shadow-md">
                 Active
               </span>
             )}
           </button>
 
           {showFilters && (
-            <div className="mt-4 bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            <div className="mt-4 card-modern p-6 animate-scale-in">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Resource Category
                   </label>
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="input-modern w-full"
                   >
                     <option value="">All Categories</option>
                     {categories.map(cat => (
@@ -236,13 +257,13 @@ const Dashboard = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Facility Type
                   </label>
                   <select
                     value={selectedFacilityType}
                     onChange={(e) => setSelectedFacilityType(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="input-modern w-full"
                   >
                     <option value="">All Facilities</option>
                     {facilityTypeOptions.map(type => (
@@ -252,13 +273,13 @@ const Dashboard = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Availability Status
                   </label>
                   <select
                     value={selectedStatus}
                     onChange={(e) => setSelectedStatus(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="input-modern w-full"
                   >
                     <option value="">All Status</option>
                     {statusOptions.map(status => (
@@ -271,7 +292,7 @@ const Dashboard = () => {
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
-                  className="mt-4 text-sm text-primary-600 hover:text-primary-700 font-medium"
+                  className="mt-4 text-sm text-primary-600 hover:text-primary-700 font-semibold transition-colors duration-200 hover:underline"
                 >
                   Clear all filters
                 </button>
@@ -281,37 +302,44 @@ const Dashboard = () => {
         </div>
 
         {/* Results Summary */}
-        <div className="mb-6 flex items-center justify-between">
-          <p className="text-gray-600">
-            Showing <span className="font-semibold text-gray-900">{filteredResults.length}</span> results
-          </p>
+        <div className="mb-6 flex items-center justify-between animate-fade-in">
+          <div className="flex items-center space-x-2">
+            <div className="h-1 w-1 bg-primary-500 rounded-full"></div>
+            <p className="text-gray-600">
+              Showing <span className="font-bold text-gray-900 text-lg">{filteredResults.length}</span> results
+            </p>
+          </div>
         </div>
 
         {/* Results Grid */}
         {filteredResults.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredResults.map((item) => (
-              <ResourceCard
-                key={item.id}
-                resource={item}
-                facility={item.facility}
-                availability={item}
-                userLocation={userLocation}
-                showDetails={isAdmin()}
-              />
+            {filteredResults.map((item, index) => (
+              <div key={item.id} className="animate-fade-in" style={{ animationDelay: `${index * 0.05}s` }}>
+                <ResourceCard
+                  resource={item}
+                  facility={item.facility}
+                  availability={item}
+                  userLocation={userLocation}
+                  showDetails={isAdmin()}
+                  onClick={handleCardClick}
+                />
+              </div>
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-lg shadow-md p-12 text-center">
-            <AlertCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No resources found</h3>
-            <p className="text-gray-600 mb-4">
+          <div className="card-modern p-12 text-center animate-scale-in">
+            <div className="bg-gray-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+              <AlertCircle className="w-10 h-10 text-gray-400" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">No resources found</h3>
+            <p className="text-gray-600 mb-6">
               Try adjusting your search or filters to see more results.
             </p>
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
-                className="text-primary-600 hover:text-primary-700 font-medium"
+                className="btn-primary px-6 py-2.5 rounded-xl"
               >
                 Clear filters
               </button>
@@ -320,13 +348,21 @@ const Dashboard = () => {
         )}
 
         {/* Disclaimer */}
-        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <p className="text-sm text-blue-800">
-            <strong>Disclaimer:</strong> This is a prototype system. Resource availability data is for demonstration purposes only. 
+        <div className="mt-8 glass bg-blue-50/60 border border-blue-200/40 rounded-xl p-4 animate-fade-in">
+          <p className="text-sm text-blue-800 leading-relaxed">
+            <strong className="font-semibold">Disclaimer:</strong> This is a prototype system. Resource availability data is for demonstration purposes only. 
             Always verify availability by contacting facilities directly. This system does not provide medical diagnoses or advice.
           </p>
         </div>
       </div>
+
+      {/* Facility Detail Modal */}
+      <FacilityDetailModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        facility={selectedFacility}
+        userLocation={userLocation}
+      />
     </div>
   );
 };

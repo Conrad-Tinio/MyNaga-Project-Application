@@ -50,12 +50,12 @@ const FAQButtons = ({ onQuestionClick }) => {
             <button
               key={faq.id}
               onClick={() => onQuestionClick(faq.question)}
-              className="flex items-center space-x-2.5 p-3 bg-white border border-gray-200 rounded-xl hover:border-primary-400 hover:bg-gradient-to-r hover:from-primary-50 hover:to-primary-50/50 transition-all text-left group shadow-sm hover:shadow-md"
+              className="flex items-center space-x-2.5 p-3 bg-white border border-gray-200 rounded-xl hover:border-primary-400 hover:bg-gradient-to-r hover:from-primary-50 hover:to-primary-50/50 transition-all duration-200 text-left group shadow-sm hover:shadow-md active:scale-95"
             >
-              <div className="flex-shrink-0 bg-primary-50 group-hover:bg-primary-100 p-1.5 rounded-lg transition-colors">
+              <div className="flex-shrink-0 bg-primary-50 group-hover:bg-primary-100 p-2 rounded-lg transition-colors">
                 <Icon className="w-4 h-4 text-primary-600 group-hover:text-primary-700" />
               </div>
-              <span className="text-xs sm:text-sm text-gray-700 group-hover:text-primary-900 flex-1 font-medium leading-snug">
+              <span className="text-xs sm:text-sm text-gray-700 group-hover:text-primary-900 flex-1 font-semibold leading-snug">
                 {faq.question}
               </span>
             </button>
