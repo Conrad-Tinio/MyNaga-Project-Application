@@ -110,11 +110,23 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile menu button and theme toggle */}
+          <div className="md:hidden flex items-center space-x-2">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg hover:bg-white/10 active:scale-95 transition-all duration-200"
+              aria-label="Toggle dark mode"
+              title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {isDark ? (
+                <Sun className="w-5 h-5 text-yellow-300" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )}
+            </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-md hover:bg-primary-600"
+              className="p-2 rounded-md hover:bg-white/10 transition-colors"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -162,22 +174,6 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-            <button
-              onClick={toggleTheme}
-              className="flex items-center px-3 py-2 rounded-lg text-base font-medium hover:bg-white/10 active:bg-white/20 transition-all duration-200 w-full"
-            >
-              {isDark ? (
-                <>
-                  <Sun className="w-4 h-4 mr-2 text-yellow-300" />
-                  Light Mode
-                </>
-              ) : (
-                <>
-                  <Moon className="w-4 h-4 mr-2" />
-                  Dark Mode
-                </>
-              )}
-            </button>
             {user ? (
               <div className="pt-4 border-t border-white/20">
                 <div className="flex items-center px-3 py-2 mb-2 rounded-lg bg-white/10">
