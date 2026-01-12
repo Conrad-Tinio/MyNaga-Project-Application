@@ -1,10 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Menu, X, LogOut, User } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
+import { Menu, X, LogOut, User, Moon, Sun } from 'lucide-react';
 import { useState } from 'react';
 
 const Navbar = () => {
   const { user, logout, isAdmin } = useAuth();
+  const { isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -15,7 +17,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="glass-dark text-white shadow-lg border-b border-white/10 backdrop-blur-xl sticky top-0 z-50">
+    <nav className={`text-white shadow-lg border-b backdrop-blur-xl sticky top-0 z-50 transition-all duration-700 ease-in-out ${
+      isDark 
+        ? 'bg-slate-900/95 border-white/10' 
+        : 'bg-primary-700/90 border-white/10'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -66,28 +72,42 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-            {user ? (
-              <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-white/20">
-                <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-sm">
-                  <User className="w-4 h-4" />
-                  <span className="text-sm font-medium">{user.name}</span>
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center space-x-1 px-4 py-2 rounded-lg text-sm font-medium bg-white/10 hover:bg-white/20 active:scale-95 transition-all duration-200 backdrop-blur-sm"
-                >
-                  <LogOut className="w-4 h-4" />
-                  <span>Logout</span>
-                </button>
-              </div>
-            ) : (
-              <Link
-                to="/login"
-                className="px-4 py-2 rounded-lg text-sm font-medium bg-white/20 hover:bg-white/30 active:scale-95 transition-all duration-200 backdrop-blur-sm shadow-md"
+            <div className="flex items-center space-x-2 ml-4 pl-4 border-l border-white/20">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg hover:bg-white/10 active:scale-95 transition-all duration-200 backdrop-blur-sm relative"
+                aria-label="Toggle dark mode"
+                title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                Login
-              </Link>
-            )}
+                {isDark ? (
+                  <Sun className="w-5 h-5 text-yellow-300" />
+                ) : (
+                  <Moon className="w-5 h-5" />
+                )}
+              </button>
+              {user ? (
+                <>
+                  <div className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-sm">
+                    <User className="w-4 h-4" />
+                    <span className="text-sm font-medium">{user.name}</span>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-1 px-4 py-2 rounded-lg text-sm font-medium bg-white/10 hover:bg-white/20 active:scale-95 transition-all duration-200 backdrop-blur-sm"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Logout</span>
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/login"
+                  className="px-4 py-2 rounded-lg text-sm font-medium bg-white/20 hover:bg-white/30 active:scale-95 transition-all duration-200 backdrop-blur-sm shadow-md"
+                >
+                  Login
+                </Link>
+              )}
+            </div>
           </div>
 
           {/* Mobile menu button */}
@@ -105,7 +125,11 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden animate-slide-down">
-          <div className="px-2 pt-2 pb-3 space-y-1 bg-primary-800/95 backdrop-blur-md border-t border-white/10">
+          <div className={`px-2 pt-2 pb-3 space-y-1 backdrop-blur-md border-t transition-colors duration-300 ${
+            isDark 
+              ? 'bg-primary-900/95 border-white/20' 
+              : 'bg-primary-800/95 border-white/10'
+          }`}>
             <Link
               to="/"
               onClick={() => setMobileMenuOpen(false)}
@@ -138,6 +162,22 @@ const Navbar = () => {
                 </Link>
               </>
             )}
+            <button
+              onClick={toggleTheme}
+              className="flex items-center px-3 py-2 rounded-lg text-base font-medium hover:bg-white/10 active:bg-white/20 transition-all duration-200 w-full"
+            >
+              {isDark ? (
+                <>
+                  <Sun className="w-4 h-4 mr-2 text-yellow-300" />
+                  Light Mode
+                </>
+              ) : (
+                <>
+                  <Moon className="w-4 h-4 mr-2" />
+                  Dark Mode
+                </>
+              )}
+            </button>
             {user ? (
               <div className="pt-4 border-t border-white/20">
                 <div className="flex items-center px-3 py-2 mb-2 rounded-lg bg-white/10">

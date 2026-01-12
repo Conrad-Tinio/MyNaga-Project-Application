@@ -43,10 +43,10 @@ const Login = () => {
               <LogIn className="w-8 h-8 text-white" />
             </div>
           </div>
-          <h2 className="mt-6 text-center text-3xl font-bold text-gray-900 mb-2">
+          <h2 className="mt-6 text-center text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Login to <span className="text-gradient">MedMap Naga</span>
           </h2>
-          <p className="mt-2 text-center text-base text-gray-600">
+          <p className="mt-2 text-center text-base text-gray-600 dark:text-gray-300">
             For LGU staff and health facility personnel
           </p>
         </div>
@@ -61,7 +61,7 @@ const Login = () => {
           )}
           <div className="space-y-5">
             <div>
-              <label htmlFor="email" className="block text-sm font-bold text-gray-800 mb-3">
+              <label htmlFor="email" className="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-3">
                 Email address
               </label>
               <input
@@ -77,7 +77,7 @@ const Login = () => {
               />
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-bold text-gray-800 mb-3">
+              <label htmlFor="password" className="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-3">
                 Password
               </label>
               <input
@@ -94,8 +94,8 @@ const Login = () => {
             </div>
           </div>
 
-          <div className="glass bg-blue-50/60 border border-blue-200/40 rounded-xl p-4">
-            <p className="text-sm text-blue-800 leading-relaxed">
+          <div className="glass bg-blue-50/60 dark:bg-blue-900/20 border border-blue-200/40 dark:border-blue-800/40 rounded-xl p-4">
+            <p className="text-sm text-blue-800 dark:text-blue-200 leading-relaxed">
               <strong className="font-semibold">Demo Credentials:</strong><br />
               Admin: admin@naga.gov.ph<br />
               Staff: staff@naga.gov.ph<br />

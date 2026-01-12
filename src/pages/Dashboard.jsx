@@ -160,19 +160,19 @@ const Dashboard = () => {
   const hasActiveFilters = searchQuery || selectedCategory || selectedFacilityType || selectedStatus || emergencyMode;
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative transition-colors duration-500 ease-in-out">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Header */}
         <div className="mb-8 animate-fade-in">
           <div className="inline-block mb-3">
-            <span className="text-xs font-semibold text-primary-700 bg-primary-50/80 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm border border-primary-200/50 uppercase tracking-wide">
+            <span className="text-xs font-semibold text-primary-700 dark:text-primary-300 bg-primary-50/80 dark:bg-primary-900/30 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm border border-primary-200/50 dark:border-primary-700/50 uppercase tracking-wide">
               Real-time Monitoring
             </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-3 text-gray-900 leading-tight">
+          <h1 className="text-4xl md:text-5xl font-bold mb-3 text-gray-900 dark:text-white leading-tight">
             Medical Resource Availability
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-600 dark:text-gray-300">
             Real-time view of medical resources across Naga City health facilities
           </p>
         </div>
@@ -304,9 +304,9 @@ const Dashboard = () => {
         {/* Results Summary */}
         <div className="mb-6 flex items-center justify-between animate-fade-in">
           <div className="flex items-center space-x-2">
-            <div className="h-1 w-1 bg-primary-500 rounded-full"></div>
-            <p className="text-gray-600">
-              Showing <span className="font-bold text-gray-900 text-lg">{filteredResults.length}</span> results
+            <div className="h-1 w-1 bg-primary-500 dark:bg-primary-400 rounded-full"></div>
+            <p className="text-gray-600 dark:text-gray-300">
+              Showing <span className="font-bold text-gray-900 dark:text-white text-lg">{filteredResults.length}</span> results
             </p>
           </div>
         </div>
@@ -348,8 +348,8 @@ const Dashboard = () => {
         )}
 
         {/* Disclaimer */}
-        <div className="mt-8 glass bg-blue-50/60 border border-blue-200/40 rounded-xl p-4 animate-fade-in">
-          <p className="text-sm text-blue-800 leading-relaxed">
+        <div className="mt-8 glass bg-blue-50/60 dark:bg-blue-900/20 border border-blue-200/40 dark:border-blue-800/40 rounded-xl p-4 animate-fade-in">
+          <p className="text-sm text-blue-800 dark:text-blue-200 leading-relaxed">
             <strong className="font-semibold">Disclaimer:</strong> This is a prototype system. Resource availability data is for demonstration purposes only. 
             Always verify availability by contacting facilities directly. This system does not provide medical diagnoses or advice.
           </p>

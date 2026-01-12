@@ -76,7 +76,7 @@ const FacilityDetailModal = ({ isOpen, onClose, facility, userLocation }) => {
       onClick={onClose}
     >
       <div 
-        className="glass bg-white/95 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col animate-scale-in"
+        className="glass bg-white/95 dark:bg-gray-800/95 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -130,14 +130,14 @@ const FacilityDetailModal = ({ isOpen, onClose, facility, userLocation }) => {
                   <div key={category} className="card-modern p-5">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center space-x-3">
-                        <div className="bg-primary-100 p-2 rounded-lg">
-                          <Icon className="w-5 h-5 text-primary-600" />
+                        <div className="bg-primary-100 dark:bg-primary-900/30 p-2 rounded-lg">
+                          <Icon className="w-5 h-5 text-primary-600 dark:text-primary-400" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-bold text-gray-900">
+                          <h3 className="text-lg font-bold text-gray-900 dark:text-white">
                             {categoryLabels[category]}
                           </h3>
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
                             {availableCount} of {categoryResources.length} available
                           </p>
                         </div>
@@ -148,16 +148,16 @@ const FacilityDetailModal = ({ isOpen, onClose, facility, userLocation }) => {
                       {categoryResources.map((resource) => (
                         <div
                           key={resource.id}
-                          className="bg-gray-50/80 rounded-lg p-3 border border-gray-200/60 hover:border-primary-300/60 transition-colors"
+                          className="bg-gray-50/80 dark:bg-gray-700/50 rounded-lg p-3 border border-gray-200/60 dark:border-gray-600/60 hover:border-primary-300/60 dark:hover:border-primary-500/60 transition-colors"
                         >
                           <div className="flex items-start justify-between mb-2">
-                            <span className="text-sm font-semibold text-gray-900">
+                            <span className="text-sm font-semibold text-gray-900 dark:text-white">
                               {resource.resourceName}
                             </span>
                             <StatusBadge status={resource.status} />
                           </div>
                           {resource.stock !== undefined && (
-                            <div className="flex items-center justify-between text-xs text-gray-600 mt-2">
+                            <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400 mt-2">
                               <span>Stock: {resource.stock} units</span>
                               <span className="flex items-center">
                                 <Clock className="w-3 h-3 mr-1" />
@@ -174,16 +174,16 @@ const FacilityDetailModal = ({ isOpen, onClose, facility, userLocation }) => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <Building2 className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600 font-medium">No resources available for this facility</p>
+              <Building2 className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+              <p className="text-gray-600 dark:text-gray-400 font-medium">No resources available for this facility</p>
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-200 p-4 bg-gray-50/50">
+        <div className="border-t border-gray-200 dark:border-gray-700 p-4 bg-gray-50/50 dark:bg-gray-800/50">
           <div className="flex items-center justify-between">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 dark:text-gray-400">
               Last updated: {resources.length > 0 ? formatTimeAgo(resources[0].lastUpdated) : 'N/A'}
             </p>
             <button

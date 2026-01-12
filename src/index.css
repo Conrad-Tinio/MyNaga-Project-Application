@@ -5,15 +5,47 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --bg-gradient-light: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+    --bg-gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    
+    /* Color variables for smooth transitions */
+    --bg-primary: #f8fafc;
+    --bg-secondary: #e2e8f0;
+    --bg-tertiary: #cbd5e1;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --border-color: rgba(229, 231, 235, 0.6);
+  }
+
+  .dark {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --border-color: rgba(55, 65, 81, 0.6);
+  }
+
+  html {
+    transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
   body {
     margin: 0;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+    background: var(--bg-gradient-light);
     min-height: 100vh;
     position: relative;
+    transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: background;
+  }
+
+  .dark body {
+    background: var(--bg-gradient-dark);
   }
 
   body::before {
@@ -28,6 +60,15 @@
       radial-gradient(circle at 80% 70%, rgba(99, 102, 241, 0.06) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
+    transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1), 
+                background 700ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: background, opacity;
+  }
+
+  .dark body::before {
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(99, 102, 241, 0.12) 0%, transparent 50%);
   }
 
   #root {
@@ -36,8 +77,31 @@
     z-index: 1;
   }
 
-  * {
-    @apply transition-colors duration-200;
+  /* Smooth transitions for theme switching */
+  html {
+    transition: background-color 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Apply smooth transitions to theme-sensitive properties */
+  body, #root, [class*="bg-"], [class*="text-"], [class*="border-"] {
+    transition-property: color, background-color, border-color, background-image, background;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 700ms;
+  }
+
+  /* Ensure all text elements transition smoothly */
+  h1, h2, h3, h4, h5, h6, p, span, div, label, li, td, th, small, a {
+    transition: color 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Faster transitions for interactive elements */
+  button, a, input, select, textarea {
+    transition-duration: 200ms;
+  }
+
+  /* But keep theme transitions slow for buttons */
+  button[class*="bg-"], a[class*="bg-"] {
+    transition-duration: 700ms;
   }
 }
 
@@ -57,6 +121,19 @@
       0 4px 24px 0 rgba(0, 0, 0, 0.08),
       0 1px 3px 0 rgba(0, 0, 0, 0.04),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+    transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: background-color, border-color, box-shadow;
+  }
+
+  .dark .glass {
+    background: rgba(30, 41, 59, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 4px 24px 0 rgba(0, 0, 0, 0.3),
+      0 1px 3px 0 rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
   }
 
   .glass-dark {
@@ -65,16 +142,39 @@
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.15);
+    transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: background-color, border-color, box-shadow;
+  }
+
+  .dark .glass-dark {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.5);
   }
 
   .card-modern {
     @apply bg-white/80 backdrop-blur-xl rounded-xl border border-gray-200/60;
+    @apply dark:bg-gray-800/80 dark:border-gray-700/60;
     box-shadow: 
       0 4px 20px 0 rgba(0, 0, 0, 0.06),
       0 1px 4px 0 rgba(0, 0, 0, 0.03),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
-    @apply hover:shadow-xl hover:border-primary-300/40 hover:-translate-y-0.5;
-    @apply transition-all duration-300 ease-out;
+    @apply dark:shadow-2xl;
+    @apply hover:shadow-xl hover:border-primary-300/40 dark:hover:border-primary-500/40 hover:-translate-y-0.5;
+    transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                transform 200ms ease-out;
+    will-change: background-color, border-color, box-shadow;
+  }
+
+  .dark .card-modern {
+    box-shadow: 
+      0 4px 20px 0 rgba(0, 0, 0, 0.4),
+      0 1px 4px 0 rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
   }
 
   .btn-primary {
@@ -88,9 +188,9 @@
   }
 
   .btn-secondary {
-    @apply bg-white/90 backdrop-blur-sm text-gray-700;
-    @apply border border-gray-300/60;
-    @apply hover:border-primary-400/60 hover:bg-primary-50/80;
+    @apply bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm text-gray-700 dark:text-gray-200;
+    @apply border border-gray-300/60 dark:border-gray-600/60;
+    @apply hover:border-primary-400/60 dark:hover:border-primary-500/60 hover:bg-primary-50/80 dark:hover:bg-primary-900/30;
     @apply active:scale-[0.98];
     @apply shadow-sm hover:shadow-md;
     @apply transition-all duration-200;
@@ -99,15 +199,25 @@
 
   .input-modern {
     @apply w-full px-4 py-3;
-    @apply bg-white/90 backdrop-blur-sm;
-    @apply border border-gray-300/60 rounded-xl;
-    @apply focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500;
-    @apply transition-all duration-200;
-    @apply placeholder:text-gray-400;
-    @apply text-gray-900;
+    @apply bg-white/90 backdrop-blur-sm dark:bg-gray-800/90;
+    @apply border border-gray-300/60 dark:border-gray-600/60 rounded-xl;
+    @apply focus:ring-2 focus:ring-primary-500/20 dark:focus:ring-primary-400/30 focus:border-primary-500 dark:focus:border-primary-400;
+    @apply placeholder:text-gray-400 dark:placeholder:text-gray-500;
+    @apply text-gray-900 dark:text-gray-100;
+    transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 200ms ease-out;
+    will-change: background-color, border-color, color;
     box-shadow: 
       0 1px 3px 0 rgba(0, 0, 0, 0.05),
       inset 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  }
+
+  .dark .input-modern {
+    box-shadow: 
+      0 1px 3px 0 rgba(0, 0, 0, 0.3),
+      inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   }
 
   .input-modern:focus {
@@ -115,6 +225,13 @@
       0 2px 8px 0 rgba(14, 165, 233, 0.12),
       0 0 0 3px rgba(14, 165, 233, 0.08),
       inset 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  }
+
+  .dark .input-modern:focus {
+    box-shadow: 
+      0 2px 8px 0 rgba(14, 165, 233, 0.2),
+      0 0 0 3px rgba(14, 165, 233, 0.15),
+      inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   }
 
   .gradient-bg {
